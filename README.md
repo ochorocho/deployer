@@ -1,6 +1,10 @@
 # Docker Deployer
 
-Run deployer in a Docker Container.
+Run deployer in a Docker Container
+
+```
+docker run --rm -it ochorocho/deployer:latest bash 
+```
 
 ## Development
 

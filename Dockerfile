@@ -13,11 +13,7 @@ RUN apk --update --no-cache --update-cache --allow-untrusted add \
     composer global require deployer/recipes && \
     # Cleanup image
     apk del make g++ libgcc gcc binutils curl libcurl autoconf perl php7-zip php7-common && \
-    apk info php7-common php7-zip && \
-    apk stats && \
     rm -rf /var/cache/apk/*
-
-    # binutils
 
 # Install Deployer
 ENV PATH="/root/.composer/vendor/bin:${PATH}"

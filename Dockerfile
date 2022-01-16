@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.15
 
 # Install PHP + mods
 RUN apk --update --no-cache --update-cache --allow-untrusted add \

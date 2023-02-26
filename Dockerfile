@@ -1,18 +1,14 @@
-FROM alpine:3.15
+FROM alpine:3.17
 
 # Install PHP + mods
-RUN apk --update --no-cache --update-cache --allow-untrusted add \
-    rsync git curl php8 php8-json php8-mbstring php8-openssl php8-phar g++ make autoconf zip unzip php-zip && \
-    ln -sfn /usr/bin/php8 /usr/bin/php && \
+RUN apk add rsync git curl php81 php81-json php81-mbstring php81-openssl php81-phar g++ make autoconf zip unzip php-zip && \
     # Install Composer \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.1.0 && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.5.4 && \
     # Configure php.ini
-    mkdir -p /etc/php && \
-    echo $'memory_limit = 1024M' >> /etc/php/php.ini && \
-    composer global require deployer/deployer "^v7.0.0-rc.4" && \
-    composer global require deployer/recipes && \
+    echo $'memory_limit = 1024M' >> /etc/php81/php.ini && \
+    composer global require deployer/deployer "^v7.2" && \
     # Cleanup image
-    apk del make g++ libgcc gcc binutils curl libcurl autoconf perl php7-zip php7-common && \
+    apk del make g++ libgcc gcc binutils curl libcurl autoconf perl && \
     rm -rf /var/cache/apk/*
 
 # Install Deployer

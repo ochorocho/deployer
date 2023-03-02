@@ -10,12 +10,6 @@ jobs:
     name: Docker Image Builder
     runs-on: ubuntu-latest
     steps:
-      - name: Get Docker Tag Name
-        id: get-tag
-        run: |
-          readonly local tag=$([[ "${{ github.ref_name }}" = "main" ]] && echo "latest" || echo "${{ github.ref_name }}" | tr "/" "-")
-          echo ::set-output name=tag::$tag
-
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -38,26 +32,25 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ochorocho/deployer
-          tags: |
-            type=raw,value=${{ steps.get-tag.outputs.tag }},enable=true
-      -
         name: Build and export to Docker
         uses: docker/build-push-action@v3
         with:
           context: ./
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            latest
+            7.2
+          build-args: |
+            alpine_version=3.17
+            php_version=81
+            deployer_version=7.2
+            composer_version=2.5.4
       -
         name: Test for expected binaries
         run: |
           echo ${{ steps.get-tag.outputs.tag }}
-          docker run --rm -v ${GITHUB_WORKSPACE}/test.sh:/tmp/test.sh --entrypoint "ash" ochorocho/deployer:${{ steps.get-tag.outputs.tag }} /tmp/test.sh
+          docker run --rm -v ${GITHUB_WORKSPACE}/test.sh:/tmp/test.sh --entrypoint "ash" ochorocho/deployer:latest /tmp/test.sh
       -
         name: Build and push
         uses: docker/build-push-action@v3
@@ -65,5 +58,7 @@ jobs:
           context: ./
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            latest
+            7.2
+          #labels: ${{ steps.meta.outputs.labels }}

@@ -1,6 +1,7 @@
 ARG alpine_version=3.17
 FROM alpine:${alpine_version}
 
+# See followeing for available php versions https://pkgs.alpinelinux.org/packages?name=php8*
 ARG php_version=81
 ARG deployer_version=^7.2
 ARG composer_version=2.5

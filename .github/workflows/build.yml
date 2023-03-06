@@ -6,13 +6,6 @@ on:
   schedule:
     - cron: "0 4 * * *"
 
-#  ARG alpine_version=3.17
-#  FROM alpine:${alpine_version}
-#
-#  ARG php_version=81
-#  ARG deployer_version=7.2
-#  ARG composer_version=2.5.4
-# --build-arg php_version="81"
 jobs:
   build:
     name: Build Container

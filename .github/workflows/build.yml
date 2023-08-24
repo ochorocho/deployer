@@ -48,6 +48,3 @@ jobs:
       -
         name: "Build & Push (deployer: 7.3, php: 8.1)"
         run: docker buildx build --push --platform linux/arm64,linux/amd64 --progress plain --no-cache --pull . -f ./Dockerfile -t "ochorocho/deployer:7.3-php81" --build-arg php_version="81" --build-arg deployer_version="7.3" --build-arg composer_version="2.5" --build-arg alpine_version=3.18
-      -
-        name: "Build & Push (deployer: 7.3, php: 8.2)"
-        run: docker buildx build --push --platform linux/arm64,linux/amd64 --progress plain --no-cache --pull . -f ./Dockerfile -t "ochorocho/deployer:7.3-php82" --build-arg php_version="82" --build-arg deployer_version="7.3" --build-arg composer_version="2.5" --build-arg alpine_version=3.18
